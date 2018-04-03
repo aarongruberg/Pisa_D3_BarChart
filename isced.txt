@@ -1,0 +1,12 @@
+ISCED EDUCATION LEVELS
+
+ISCED level 0 - Early childhood education.
+ISCED level 1 - Primary education.
+ISCED level 2 - Lower secondary education.
+ISCED level 3 - Upper secondary education.
+ISCED level 4 - Post secondary, non-tertiary education.
+ISCED level 5 - Short cycle tertiary education.
+ISCED level 6 - Bachelor's or equivalent.
+ISCED level 7 - Master's or equivalent.
+ISCED level 8 - Doctoral or equivalent.
+ISCED level 9 - N/A

@@ -1,0 +1,48 @@
+Variables to include:
+
+CNT - Country
+COBN_S - Student's country of birth
+AGE - Student age, int value.
+EXAPPLM - Student experience in applied math concepts, float value.
+EXPUREM - Student experience in pure math concepts, float value.
+BELONG - Student feels sense of belonging at school, float value.
+ST04Q01 - Gender, string value.
+ST11Q01 - At home Mother, string value.
+ST11Q02 - At home Father, string value.
+ST11Q03 - At home brothers, string value.
+ST11Q04 - At home sisters, string value.
+ST13Q01 - Mother highest schooling, converted from string to int value.
+ST15Q01 - Mother current job status, converted from string of text to one word string.
+ST17Q01 - Father highest schooling, converted from string to int value.
+ST19Q01 - Father current job status, converted to one word string.
+ST26Q02 - Possessions, own room.
+ST26Q06 - Possessions, internet.
+ST26Q07 - Possessions, literature
+ST26Q08 - Possessions, poetry
+ST26Q09 - Possessions, art
+ST42Q01 - Math anxiety, worry that it will be difficult
+ST42Q08 - Math anxiety, feel helpless
+ST42Q07 - Math self concept, one of best subjects
+ST43Q06 - Perceived control, perform poorly regardless
+ST87Q05 - Liked by other students
+IC01Q02 - At home portable laptop.
+IC01Q07 - At home cell phone with internet.
+OUTHOURS - Out of school study time, int
+PARED - Highest parental education in years, int
+TIMEINT - Computer use in minutes, int
+
+Questions:
+
+How does family structure contribute to a student's confidence in math?
+
+How do parents education and employment contribute to student's confidence in math?
+
+How does exposure to pure and applied math concepts affect confidence?
+
+How do these factors relate to study time?
+
+How does study time contribute to confidence?
+
+
+
+
