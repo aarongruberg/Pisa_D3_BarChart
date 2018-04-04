@@ -95,6 +95,7 @@ function draw(data) {
       })
 
   // add bars for low study time
+  // if statement in accessor function moves larger valued bars to the back
   bar.append("rect")
       .attr("class", "low")
       .attr("y", function(d) {
@@ -103,7 +104,14 @@ function draw(data) {
       .attr("width", 0)
       .transition().duration(700)
       .delay(function(d, i) {return i * 30;})
-      .attr("width", function(d) { return x(d.low); })
+      .attr("width", function(d) { 
+      if(d.low > d.mid){
+        return x(d.low);
+      }
+      else{
+        return x(d.mid);
+      }
+      })
       .attr("height", barHeight - 1)
       .style('fill', 'green')
       .style("opacity", 0.7);
@@ -117,7 +125,15 @@ function draw(data) {
       .attr("width", 0)
       .transition().duration(700)
       .delay(function(d, i) {return i * 30;})
-      .attr("width", function(d) { return x(d.mid); })
+      .attr("width", function(d) { 
+      if(d.low < d.mid){
+        return x(d.low);
+      }
+      else{
+        return x(d.mid);
+      }
+
+      })
       .attr("height", barHeight - 1)
       .style("opacity", 0.7);
 
