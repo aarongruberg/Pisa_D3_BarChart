@@ -94,7 +94,7 @@ function draw(data) {
         d3.select("text").remove();
       })
 
-  // add bars for low study time
+  // add bars for back layer
   // if statement in accessor function moves larger valued bars to the back
   bar.append("rect")
       .attr("class", "low")
@@ -113,10 +113,19 @@ function draw(data) {
       }
       })
       .attr("height", barHeight - 1)
-      .style('fill', 'green')
-      .style("opacity", 0.7);
+      // accessor function to assign color based on data column
+      .style('fill', function(d){
+        if(d.low > d.mid){
+          return "green";
+        }
+        else{
+          return "steelblue";
+        }
+      })
+      .style("opacity", 1);
 
-  // add bars for mid study time
+  // add bars for front layer
+  // if statement in accessor function moves smaller valued bars to the back
   bar.append("rect")
       .attr("class", "mid")
       .attr("y", function(d) {
@@ -135,7 +144,16 @@ function draw(data) {
 
       })
       .attr("height", barHeight - 1)
-      .style("opacity", 0.7);
+      // accessor function to assign color based on data column
+      .style('fill', function(d){
+        if(d.low < d.mid){
+          return "green";
+        }
+        else{
+          return "steelblue";
+        }
+      })
+      .style("opacity", 1);
 
   // add x axis 
   chart.append("g")
