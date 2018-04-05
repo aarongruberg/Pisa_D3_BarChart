@@ -25,8 +25,8 @@ function draw(data) {
   // Create margin for canvas of chart
   var margin = {top: 70, right: 10, bottom: 20, left: 10};
   var width = 800 - margin.left - margin.right,
-  height = 330 - margin.top - margin.bottom, 
-  barHeight = 60;
+  height = 250 - margin.top - margin.bottom, 
+  barHeight = 40;
 
   // Create tooltip
   var tip = d3.select(".chart").append("div")
@@ -39,7 +39,7 @@ function draw(data) {
 
   // Set x and y scales  
   var x = d3.scale.linear()
-    .domain([0, 117])
+    .domain([0, 50])
     .range([0, width - 110]);
 
   var y = d3.scale.ordinal()
@@ -97,7 +97,7 @@ function draw(data) {
   // add bars for back layer
   // if statement in accessor function moves larger valued bars to the back
   bar.append("rect")
-      .attr("class", "low")
+      .attr("class", "back")
       .attr("y", function(d) {
           return d.response;
         })
@@ -105,29 +105,75 @@ function draw(data) {
       .transition().duration(700)
       .delay(function(d, i) {return i * 30;})
       .attr("width", function(d) { 
-      if(d.low > d.mid){
+      if((d.low > d.mid) && (d.low > d.high)){
         return x(d.low);
       }
-      else{
+      else if((d.mid > d.low) && (d.mid > d.high)){
         return x(d.mid);
+      }
+      else{
+        return x(d.high);
       }
       })
       .attr("height", barHeight - 1)
       // accessor function to assign color based on data column
       .style('fill', function(d){
-        if(d.low > d.mid){
-          return "green";
+        if((d.low > d.mid) && (d.low > d.high)){
+          return "#D75B66";
+        }
+        else if((d.mid > d.low) && (d.mid > d.high)){
+          return "#23345C";
         }
         else{
-          return "steelblue";
+          return "#F1BA48";
+        }
+      })
+      .style("opacity", 1);
+
+  // add bars for middle layer
+  // if statement in accessor function moves smaller valued bars to the back
+  bar.append("rect")
+      .attr("class", "middle")
+      .attr("y", function(d) {
+          return d.response;
+        })
+      .attr("width", 0)
+      .transition().duration(700)
+      .delay(function(d, i) {return i * 30;})
+      .attr("width", function(d) { 
+      if(((d.low > d.mid) && (d.low < d.high))
+          || ((d.low > d.high) && (d.low < d.mid))){
+        return x(d.low);
+      }
+      else if(((d.mid > d.low) && (d.mid < d.high))
+        || ((d.mid > d.high) && (d.mid < d.low))){
+        return x(d.mid);
+      }
+      else{
+        return x(d.high);
+      }
+      })
+      .attr("height", barHeight - 1)
+      // accessor function to assign color based on data column
+      .style('fill', function(d){
+        if(((d.low > d.mid) && (d.low < d.high))
+          || ((d.low > d.high) && (d.low < d.mid))){
+          return "#D75B66";
+        }
+        else if(((d.mid > d.low) && (d.mid < d.high))
+        || ((d.mid > d.high) && (d.mid < d.low))){
+          return "#23345C";
+        }
+        else{
+          return "#F1BA48";
         }
       })
       .style("opacity", 1);
 
   // add bars for front layer
-  // if statement in accessor function moves smaller valued bars to the back
+  // if statement in accessor function moves larger valued bars to the front
   bar.append("rect")
-      .attr("class", "mid")
+      .attr("class", "front")
       .attr("y", function(d) {
           return d.response;
         })
@@ -135,22 +181,27 @@ function draw(data) {
       .transition().duration(700)
       .delay(function(d, i) {return i * 30;})
       .attr("width", function(d) { 
-      if(d.low < d.mid){
+      if((d.low < d.mid) && (d.low < d.high)){
         return x(d.low);
       }
-      else{
+      else if((d.mid < d.low) && (d.mid < d.high)){
         return x(d.mid);
       }
-
+      else{
+        return x(d.high);
+      }
       })
       .attr("height", barHeight - 1)
       // accessor function to assign color based on data column
       .style('fill', function(d){
-        if(d.low < d.mid){
-          return "green";
+        if((d.low < d.mid) && (d.low < d.high)){
+          return "#D75B66";
+        }
+        else if((d.mid < d.low) && (d.mid < d.high)){
+          return "#23345C";
         }
         else{
-          return "steelblue";
+          return "#F1BA48";
         }
       })
       .style("opacity", 1);
@@ -171,8 +222,8 @@ function draw(data) {
         .attr("x", (width - 300))             
         .attr("y", (margin.top - 100))
         .attr("text-anchor", "middle")  
-        .style("font-size", "28px") 
-        .text("Math is one of my best subjects");
+        .style("font-size", "22px") 
+        .text("Student Responses: Math is one of my best subjects");
 }
 </script>
 </head>
