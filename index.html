@@ -18,6 +18,18 @@
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
+div.study_buttons {
+    position: fixed;
+    top: 100px;
+    right: 300px;
+}  
+div.study_buttons div {
+    color: white;
+    padding: 4px;
+    margin: 4px;
+}
+
 </style>
 <script>
 function draw(data) {
@@ -224,17 +236,51 @@ function draw(data) {
         .attr("text-anchor", "middle")  
         .style("font-size", "22px") 
         .text("Student Responses: Math is one of my best subjects");
+
+  var study = ["low", "moderate", "high"];
+
+  // Add buttons for each study group in "study" array
+  var buttons = d3.select("body")
+                  .append('div')
+                  .attr("class", "study_buttons")
+                  .selectAll("div")
+                  .data(study)
+                  .enter()
+                  .append("div")
+                  .style("background-color", function(d, i){
+
+                    if(study[i] == "low"){
+                      return "#D75B66";
+                    }
+
+                    else if(study[i] == "moderate"){
+                      return "#23345C";
+                    }
+
+                    else{
+                      return "#F1BA48";
+                    }
+                  })
+                  .text(function(d){
+                    return d;
+                  })
+                  .style('fill', 'white');
+
+  // Add events on click
+  buttons.on("click", function(d, i){
+    d3.select(this)
+
+    // Remove all bars
+    d3.selectAll('rect').remove();
+
+    // Add bars for button that was clicked
+    
+  })
+                
 }
 </script>
 </head>
 <body>
-
-<div id="option">
-    <input name="updateButton" 
-           type="button" 
-           value="Update" 
-           onclick="updateData()" />
-</div>
 
   <svg class="chart"></svg>
   <script type="text/javascript">
