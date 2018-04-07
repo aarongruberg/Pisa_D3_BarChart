@@ -247,7 +247,7 @@ function draw(data) {
                   .data(study)
                   .enter()
                   .append("div")
-                  .style("background-color", function(d, i){
+                  .style("background-color", function(s, i){
 
                     if(study[i] == "low"){
                       return "#D75B66";
@@ -261,20 +261,100 @@ function draw(data) {
                       return "#F1BA48";
                     }
                   })
-                  .text(function(d){
-                    return d;
+                  .text(function(s){
+                    return s;
                   })
-                  .style('fill', 'white');
+                  .style('color', 'white');
 
   // Add events on click
-  buttons.on("click", function(d, i){
+  buttons.on("click", function(s, i){
+
+    // Restore original button color when a new button is clicked
+    d3.select(".study_buttons")
+    .selectAll("div")
+    .style("color", "white")
+    .style("background", function(s, i){
+
+      if(study[i] == "low"){
+        return "#D75B66";
+      }
+
+      else if(study[i] == "moderate"){
+        return "#23345C";
+      }
+
+      else{
+        return "#F1BA48";
+      }
+      })
+
+    // Change button color to show it is clicked
     d3.select(this)
+    .style("background", "black")
+    .style("color", "white")
 
-    // Remove all bars
-    d3.selectAll('rect').remove();
+    // Replace with low bars
+    if(study[i] == "low"){
 
-    // Add bars for button that was clicked
-    
+      // Remove all bars
+      d3.selectAll('rect').remove()
+
+      low = bar.append("rect")
+      .attr("class", "low")
+      .attr("y", function(d) {
+        return d.response;
+      })
+      .attr("width", 0)
+      .transition().duration(700)
+      .delay(function(d, i) {return i * 30;})
+      .attr("width", function(d) { 
+        return x(d.low);})
+      .attr("height", barHeight - 1)
+      .style('fill', "#D75B66")
+      .style("opacity", 1);
+    }
+
+    // Replace with mid bars
+    else if(study[i] == "moderate"){
+
+      // Remove all bars
+      d3.selectAll('rect').remove()
+
+      mid = bar.append("rect")
+      .attr("class", "low")
+      .attr("y", function(d) {
+        return d.response;
+      })
+      .attr("width", 0)
+      .transition().duration(700)
+      .delay(function(d, i) {return i * 30;})
+      .attr("width", function(d) { 
+        return x(d.mid);})
+      .attr("height", barHeight - 1)
+      .style('fill', "#23345C")
+      .style("opacity", 1);
+    }
+
+    // Replace with high bars
+    else if(study[i] == "high"){
+
+      // Remove all bars
+      d3.selectAll('rect').remove()
+
+      high = bar.append("rect")
+      .attr("class", "low")
+      .attr("y", function(d) {
+        return d.response;
+      })
+      .attr("width", 0)
+      .transition().duration(700)
+      .delay(function(d, i) {return i * 30;})
+      .attr("width", function(d) { 
+        return x(d.high);})
+      .attr("height", barHeight - 1)
+      .style('fill', "#F1BA48")
+      .style("opacity", 1);
+    }
   })
                 
 }
@@ -284,12 +364,16 @@ function draw(data) {
 
   <svg class="chart"></svg>
   <script type="text/javascript">
+
+  // Function to coerce string to number
   function type(d) {
-    d.low = +d.low; // coerce to number
+    d.low = +d.low; 
     d.mid = +d.mid; 
     d.high = +d.high; 
     return d;
   }
+
+
   d3.csv("pisa_viz.csv", type, draw);
 
 
