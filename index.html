@@ -83,7 +83,7 @@ function draw(data) {
     .enter().append("g")
       .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; })
       
-      // Mouseover function
+      // start "mouseover" function
       .on("mouseover", function(d){
         tip.transition()
           .style('opacity', 1)
@@ -98,7 +98,7 @@ function draw(data) {
           .style("fill", "white");
       })
 
-      // remove text on mouseout
+      // restore opacity and remove text on "mouseout"
       .on("mouseout", function(d){
         tip.transition()
           .style("opacity", 0)
