@@ -88,7 +88,7 @@ function draw(data) {
         tip.transition()
           .style('opacity', 1)
 
-        // append text to bars  
+        // Change opacity and append text to bars  
         d3.select(this).style('opacity', 0.6)
           .append("text")
           .attr("x", function(d) { return x(d.low) - 3; })
@@ -262,7 +262,7 @@ function draw(data) {
                     }
 
                     else{
-                      return "#BFAFA0"
+                      return "black"
                     }
                   })
                   .text(function(s){
@@ -270,7 +270,25 @@ function draw(data) {
                   })
                   .style('color', 'white');
 
-  // Add events on click
+
+  // Mouseover buttons function
+  buttons.on("mouseover", function(s){
+    d3.select(".study_buttons")
+    .selectAll("div")
+    tip.transition()
+    .style('opacity', 1)
+    d3.select(this).style('opacity', 0.6);
+    })
+
+
+  buttons.on("mouseout", function(s){
+          tip.transition()
+          .style("opacity", 0)
+        d3.select(this).style("opacity", 1);
+    })
+
+
+  // Add events on button click
   buttons.on("click", function(s, i){
 
     // Restore original button color when a new button is clicked
@@ -292,14 +310,15 @@ function draw(data) {
       }
 
       else{
-        return "#BFAFA0"
+        return "black"
       }
       })
 
     // Change button color to show it is clicked
     d3.select(this)
-    .style("background", "black")
-    .style("color", "white")
+    .style("background", "#BFAFA0")
+    .style("color", "blue")
+
 
     // Replace with low bars when "low" button is clicked
     if(study[i] == "low"){
@@ -369,7 +388,7 @@ function draw(data) {
 
       // Remove all bars
       d3.selectAll('rect').remove()
-      
+
       // add bars for back layer
       // if statement in accessor function moves larger valued bars to the back
       bar.append("rect")
