@@ -83,28 +83,6 @@ function draw(data) {
     .enter().append("g")
       .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; })
       
-      // start "mouseover" function
-      .on("mouseover", function(d){
-        tip.transition()
-          .style('opacity', 1)
-
-        // Change opacity and append text to bars  
-        d3.select(this).style('opacity', 0.6)
-          .append("text")
-          .attr("x", function(d) { return x(d.low) - 3; })
-          .attr("y", barHeight / 2)
-          .attr("dy", ".35em")
-          .text(function(d) { return d.low; })
-          .style("fill", "white");
-      })
-
-      // restore opacity and remove text on "mouseout"
-      .on("mouseout", function(d){
-        tip.transition()
-          .style("opacity", 0)
-        d3.select(this).style("opacity", 1)
-        d3.select("text").remove();
-      })
 
   // add bars for back layer
   // if statement in accessor function moves larger valued bars to the back
@@ -128,6 +106,7 @@ function draw(data) {
       }
       })
       .attr("height", barHeight - 1)
+      
       // accessor function to assign color based on data column
       .style('fill', function(d){
         if((d.low > d.mid) && (d.low > d.high)){
@@ -217,6 +196,66 @@ function draw(data) {
         }
       })
       .style("opacity", 1);
+
+        
+      // "mouseover" function for front bars
+      // select the front bars and change the opacity
+      bar.select(".front")
+        .on("mouseover", function(d){
+        tip.transition()
+        .style('opacity', 1)
+
+        d3.select(this)
+          .style('opacity', 0.7);         
+      })  
+
+
+      // restore opacity on "mouseout"
+      bar.select(".front")
+        .on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0)
+        d3.select(this).style("opacity", 1);
+      })
+
+      // mouseover function to append text to front bars
+      bar.on("mouseover", function(d){
+        tip.transition()
+        d3.select(this)
+          .append("text")
+          .attr("x", function(d) { 
+            if((d.low < d.mid) && (d.low < d.high)){
+              return x(d.low) - 3;
+            }
+            else if((d.mid < d.low) && (d.mid < d.high)){
+              return x(d.mid) - 3;
+            }
+            else{
+              return x(d.high) - 3;
+            }
+          })
+          .attr("y", barHeight / 2)
+          .attr("dy", ".35em")
+          .text( function(d) {
+          if((d.low < d.mid) && (d.low < d.high)){
+              return d.low;
+            }
+            else if((d.mid < d.low) && (d.mid < d.high)){
+              return d.mid;
+            }
+            else{
+              return d.high;
+            } 
+           })
+          .style("fill", "white");
+      })
+
+    // remove text from front bars on "mouseout"
+    bar.on("mouseout", function(d){
+      tip.transition()
+      d3.select(this)
+      d3.select("text").remove();
+      })
 
   // add x axis 
   chart.append("g")
