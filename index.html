@@ -280,11 +280,12 @@ function draw(data) {
 
   // add title
   chart.append("text")
+        .attr("class", "title")
         .attr("x", (width - 300))             
         .attr("y", (margin.top - 100))
         .attr("text-anchor", "middle")  
         .style("font-size", "22px") 
-        .text("Student Responses: Math is one of my best subjects");
+        .text("All Student Responses");
 
   var study = ["low", "moderate", "high", "all"];
 
@@ -414,6 +415,16 @@ function draw(data) {
           d3.select("text").remove();
       })
 
+      // Remove and replace title for low bars
+      chart.select(".title").remove();
+      chart.append("text")
+        .attr("class", "title")
+        .attr("x", (width - 300))             
+        .attr("y", (margin.top - 100))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "22px") 
+        .text("Students with Low Study Time");
+
     }
 
     // Replace with mid bars when "mid" button is clicked
@@ -461,6 +472,17 @@ function draw(data) {
           d3.select("text").remove();
       })
 
+      // Remove and replace title for mid bars
+      chart.select(".title").remove();
+      chart.append("text")
+        .attr("class", "title")
+        .attr("x", (width - 300))             
+        .attr("y", (margin.top - 100))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "22px") 
+        .text("Students with Moderate Study Time");
+
+
     }
 
     // Replace with high bars when "high" button is clicked
@@ -507,6 +529,16 @@ function draw(data) {
           .style("opacity", 1)
           d3.select("text").remove();
       })
+
+      // Remove and replace title for mid bars
+      chart.select(".title").remove();
+      chart.append("text")
+        .attr("class", "title")
+        .attr("x", (width - 300))             
+        .attr("y", (margin.top - 100))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "22px") 
+        .text("Students with High Study Time");
 
     }
 
@@ -627,6 +659,17 @@ function draw(data) {
             }
           })
           .style("opacity", 1);
+
+
+          // Remove and replace title for mid bars
+          chart.select(".title").remove();
+          chart.append("text")
+          .attr("class", "title")
+          .attr("x", (width - 300))             
+          .attr("y", (margin.top - 100))
+          .attr("text-anchor", "middle")  
+          .style("font-size", "22px") 
+          .text("All Student Responses");
 
         }
   })
