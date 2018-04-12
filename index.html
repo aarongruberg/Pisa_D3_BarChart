@@ -37,8 +37,8 @@ function draw(data) {
   // Create margin for canvas of chart
   var margin = {top: 70, right: 10, bottom: 20, left: 10};
   var width = 800 - margin.left - margin.right,
-  height = 250 - margin.top - margin.bottom, 
-  barHeight = 40;
+      height = 350 - margin.top - margin.bottom, 
+      barHeight = 40;
 
   // Create tooltip
   var tip = d3.select(".chart").append("div")
@@ -56,7 +56,7 @@ function draw(data) {
 
   var y = d3.scale.ordinal()
     .domain(data.map(function(d) { return d.response; }))
-    .rangeRoundBands([0, height]);
+    .rangeRoundBands([0, height - 100]);
       
   // define canvas for chart
   var chart = d3.select(".chart")
@@ -92,7 +92,7 @@ function draw(data) {
           return d.response;
         })
       .attr("width", 0)
-      .transition().duration(700)
+      .transition().duration(350)
       .delay(function(d, i) {return i * 30;})
       .attr("width", function(d) { 
       if((d.low > d.mid) && (d.low > d.high)){
@@ -151,7 +151,7 @@ function draw(data) {
           return d.response;
         })
       .attr("width", 0)
-      .transition().duration(700)
+      .transition().duration(500)
       .delay(function(d, i) {return i * 30;})
       .attr("width", function(d) { 
       if(((d.low > d.mid) && (d.low < d.high))
@@ -270,8 +270,18 @@ function draw(data) {
   // add x axis 
   chart.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0," + (height - 100) + ")")
       .call(xAxis)
+
+  // text label for the x axis
+  chart.append("text")             
+      .attr("x", (width - 450))             
+      .attr("y", (height - 50))
+      .attr("text-anchor", "middle")  
+      .style("font-size", "15px") 
+      .text("Percentage");
+
+
 
   // add y axis
   chart.append("g")
@@ -281,7 +291,7 @@ function draw(data) {
   // add title
   chart.append("text")
         .attr("class", "title")
-        .attr("x", (width - 300))             
+        .attr("x", (width - 350))             
         .attr("y", (margin.top - 100))
         .attr("text-anchor", "middle")  
         .style("font-size", "22px") 
@@ -381,7 +391,7 @@ function draw(data) {
         return d.response;
       })
       .attr("width", 0)
-      .transition().duration(700)
+      .transition().duration(350)
       .delay(function(d, i) {return i * 30;})
       .attr("width", function(d) { 
         return x(d.low);})
@@ -439,7 +449,7 @@ function draw(data) {
         return d.response;
       })
       .attr("width", 0)
-      .transition().duration(700)
+      .transition().duration(350)
       .delay(function(d, i) {return i * 30;})
       .attr("width", function(d) { 
         return x(d.mid);})
@@ -497,7 +507,7 @@ function draw(data) {
         return d.response;
       })
       .attr("width", 0)
-      .transition().duration(700)
+      .transition().duration(350)
       .delay(function(d, i) {return i * 30;})
       .attr("width", function(d) { 
         return x(d.high);})
@@ -556,7 +566,7 @@ function draw(data) {
               return d.response;
             })
           .attr("width", 0)
-          .transition().duration(700)
+          .transition().duration(350)
           .delay(function(d, i) {return i * 30;})
           .attr("width", function(d) { 
           if((d.low > d.mid) && (d.low > d.high)){
@@ -592,7 +602,7 @@ function draw(data) {
               return d.response;
             })
           .attr("width", 0)
-          .transition().duration(700)
+          .transition().duration(500)
           .delay(function(d, i) {return i * 30;})
           .attr("width", function(d) { 
           if(((d.low > d.mid) && (d.low < d.high))
@@ -665,7 +675,7 @@ function draw(data) {
           chart.select(".title").remove();
           chart.append("text")
           .attr("class", "title")
-          .attr("x", (width - 300))             
+          .attr("x", (width - 350))             
           .attr("y", (margin.top - 100))
           .attr("text-anchor", "middle")  
           .style("font-size", "22px") 
