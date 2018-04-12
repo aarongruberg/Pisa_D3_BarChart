@@ -121,6 +121,28 @@ function draw(data) {
       })
       .style("opacity", 1);
 
+
+  // "mouseover" function for back bars
+  // select the back bars and change the opacity
+  bar.select(".back")
+        .on("mouseover", function(d){
+        tip.transition()
+        .style('opacity', 1)
+
+        d3.select(this)
+          .style('opacity', 0.7);         
+      })  
+
+
+  // restore opacity on "mouseout"
+  bar.select(".back")
+        .on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0)
+        d3.select(this).style("opacity", 1);
+      })
+
+
   // add bars for middle layer
   // if statement in accessor function moves smaller valued bars to the back
   bar.append("rect")
@@ -161,6 +183,29 @@ function draw(data) {
       })
       .style("opacity", 1);
 
+
+  // "mouseover" function for middle bars
+      // select the middle bars and change the opacity
+      bar.select(".middle")
+        .on("mouseover", function(d){
+        tip.transition()
+        .style('opacity', 1)
+
+        d3.select(this)
+          .style('opacity', 0.7);         
+      })  
+
+
+      // restore opacity on "mouseout"
+      bar.select(".middle")
+        .on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0)
+        d3.select(this).style("opacity", 1);
+      })
+
+     
+    
   // add bars for front layer
   // if statement in accessor function moves larger valued bars to the front
   bar.append("rect")
@@ -200,63 +245,28 @@ function draw(data) {
         
       // "mouseover" function for front bars
       // select the front bars and change the opacity
+      //var front = [23.60, 9.52, 16.01, 16.83]
+
       bar.select(".front")
-        .on("mouseover", function(d){
+      .on("mouseover", function(){
         tip.transition()
         .style('opacity', 1)
 
         d3.select(this)
-          .style('opacity', 0.7);         
+          .style('opacity', 0.7);        
       })  
 
 
       // restore opacity on "mouseout"
       bar.select(".front")
-        .on("mouseout", function(d){
+        .on("mouseout", function(){
         tip.transition()
         .style("opacity", 0)
-        d3.select(this).style("opacity", 1);
-      })
-
-      // mouseover function to append text to front bars
-      bar.on("mouseover", function(d){
-        tip.transition()
         d3.select(this)
-          .append("text")
-          .attr("x", function(d) { 
-            if((d.low < d.mid) && (d.low < d.high)){
-              return x(d.low) - 3;
-            }
-            else if((d.mid < d.low) && (d.mid < d.high)){
-              return x(d.mid) - 3;
-            }
-            else{
-              return x(d.high) - 3;
-            }
-          })
-          .attr("y", barHeight / 2)
-          .attr("dy", ".35em")
-          .text( function(d) {
-          if((d.low < d.mid) && (d.low < d.high)){
-              return d.low;
-            }
-            else if((d.mid < d.low) && (d.mid < d.high)){
-              return d.mid;
-            }
-            else{
-              return d.high;
-            } 
-           })
-          .style("fill", "white");
+        .style("opacity", 1);
       })
 
-    // remove text from front bars on "mouseout"
-    bar.on("mouseout", function(d){
-      tip.transition()
-      d3.select(this)
-      d3.select("text").remove();
-      })
-
+      
   // add x axis 
   chart.append("g")
       .attr("class", "x axis")
@@ -310,7 +320,7 @@ function draw(data) {
                   .style('color', 'white');
 
 
-  // Mouseover buttons function
+  // Highlight buttons on mouseover
   buttons.on("mouseover", function(s){
     d3.select(".study_buttons")
     .selectAll("div")
@@ -355,8 +365,7 @@ function draw(data) {
 
     // Change button color to show it is clicked
     d3.select(this)
-    .style("background", "#BFAFA0")
-    .style("color", "blue")
+    .style("color", "purple")
 
 
     // Replace with low bars when "low" button is clicked
@@ -378,6 +387,33 @@ function draw(data) {
       .attr("height", barHeight - 1)
       .style('fill', "#D75B66")
       .style("opacity", 1);
+
+      //highlight and append text to low bars on mouseover
+      // select the bars and change the opacity
+      bar.on("mouseover", function(d){
+        tip.transition()
+        .style('opacity', 1)
+
+        d3.select(this)
+          .style('opacity', 0.7)
+          .append("text")
+          .attr("x", function(d){ return x(d.low) - 3;})
+          .attr("y", barHeight / 2)
+          .attr("dy", ".35em")
+          .text(function(d){ return d.low;})
+          .style("fill", "white");         
+      })  
+
+
+      // restore opacity and remove text on "mouseout"
+      bar.on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0)
+        d3.select(this)
+          .style("opacity", 1)
+          d3.select("text").remove();
+      })
+
     }
 
     // Replace with mid bars when "mid" button is clicked
@@ -399,6 +435,32 @@ function draw(data) {
       .attr("height", barHeight - 1)
       .style('fill', "#23345C")
       .style("opacity", 1);
+
+      //highlight and append text to moderate bars on mouseover
+      bar.on("mouseover", function(d){
+        tip.transition()
+        .style('opacity', 1)
+
+        d3.select(this)
+          .style('opacity', 0.7)
+          .append("text")
+          .attr("x", function(d){ return x(d.mid) - 3;})
+          .attr("y", barHeight / 2)
+          .attr("dy", ".35em")
+          .text(function(d){ return d.mid;})
+          .style("fill", "white");         
+      })  
+
+
+      // restore opacity and remove text on "mouseout"
+      bar.on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0)
+        d3.select(this)
+          .style("opacity", 1)
+          d3.select("text").remove();
+      })
+
     }
 
     // Replace with high bars when "high" button is clicked
@@ -420,6 +482,32 @@ function draw(data) {
       .attr("height", barHeight - 1)
       .style('fill', "#F1BA48")
       .style("opacity", 1);
+
+      //highlight and append text to moderate bars on mouseover
+      bar.on("mouseover", function(d){
+        tip.transition()
+        .style('opacity', 1)
+
+        d3.select(this)
+          .style('opacity', 0.7)
+          .append("text")
+          .attr("x", function(d){ return x(d.high) - 3;})
+          .attr("y", barHeight / 2)
+          .attr("dy", ".35em")
+          .text(function(d){ return d.high;})
+          .style("fill", "white");         
+      })  
+
+
+      // restore opacity and remove text on "mouseout"
+      bar.on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0)
+        d3.select(this)
+          .style("opacity", 1)
+          d3.select("text").remove();
+      })
+
     }
 
     // Replace with all bars layered when "all" button is clicked
