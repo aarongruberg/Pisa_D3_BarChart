@@ -1,0 +1,1 @@
+This is an interactive bar chart of student responses to the statement "Math is One of My Best Subjects."
