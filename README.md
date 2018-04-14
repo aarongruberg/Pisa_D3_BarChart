@@ -1,3 +1,5 @@
 ## Student responses to the PISA 2012 statement "Math is One of My Best Subjects"
 
-<p>I downloaded the PISA 2012 Dataset and PISA Data Dictionary here: https://docs.google.com/document/d/1w7KhqotVi5eoKE3I_AZHbsxdr-NmcWsLTIiZrpxWx4w/pub?embedded=true </p>
+<p>Link to PISA 2012 Dataset and PISA Data Dictionary: https://docs.google.com/document/d/1w7KhqotVi5eoKE3I_AZHbsxdr-NmcWsLTIiZrpxWx4w/pub?embedded=true </p>
+
+<p>The PISA survey was given to 480,174 students from 65 Countries and asked students about their experience with and feelings toward reading, math, and science.  Of the 634 variables recorded, the relationship between a student's out of school study time and their confidence about math was explored.  I wrote one python script 'clean_pisa.py' to clean the data and select columns I was interested in, and another script 'my_pisa.py' to split the students into groups for students with low, moderate, or high out of school study time.  I layered the bars for each study group on top of each other and created additional charts for each specific group that can be viewed by clicking on the "low", "moderate", "high", and "all" buttons.</p>
