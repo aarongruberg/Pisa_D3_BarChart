@@ -37,7 +37,7 @@ function draw(data) {
   // Create margin for canvas of chart
   var margin = {top: 70, right: 10, bottom: 20, left: 10};
   var width = 800 - margin.left - margin.right,
-      height = 350 - margin.top - margin.bottom, 
+      height = 450 - margin.top - margin.bottom, 
       barHeight = 40;
 
   // Create tooltip
@@ -57,7 +57,7 @@ function draw(data) {
 
   var y = d3.scale.ordinal()
     .domain(data.map(function(d) { return d.response; }))
-    .rangeRoundBands([0, height - 100]);
+    .rangeRoundBands([0, height - 200]);
       
   // define canvas for chart
   var chart = d3.select(".chart")
@@ -305,16 +305,16 @@ function draw(data) {
   // add x axis 
   chart.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0," + (height - 100) + ")")
+      .attr("transform", "translate(0," + (height - 200) + ")")
       .call(xAxis)
 
   // text label for the x axis
   chart.append("text")             
-      .attr("x", (width - 450))             
-      .attr("y", (height - 50))
+      .attr("x", (width - 390))             
+      .attr("y", (height - 150))
       .attr("text-anchor", "middle")  
       .style("font-size", "15px") 
-      .text("Percentage");
+      .text("Percentage of Each Group");
 
 
 
@@ -323,14 +323,24 @@ function draw(data) {
       .attr("class", "y axis")
       .call(yAxis);
 
-  // add main title
+  // add main title a
   chart.append("text")
-        .attr("class", "main")
-        .attr("x", (width - 190))             
-        .attr("y", (margin.top - 150))
+        .attr("class", "main_a")
+        .attr("x", (width - 230))             
+        .attr("y", (margin.top - 180))
         .attr("text-anchor", "middle")  
         .style("font-size", "22px") 
-        .text("Student Responses to the PISA 2012 Statement 'Math is One of My Best Subjects'");
+        .text("Student Responses to the PISA 2012 Statement:");
+
+  // add main title b
+  chart.append("text")
+        .attr("class", "main_b")
+        .attr("x", (width - 290))             
+        .attr("y", (margin.top - 140))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "22px") 
+        .text("'Math is One of My Best Subjects'");
+
 
   // add sub title
   chart.append("text")
