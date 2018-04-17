@@ -123,24 +123,23 @@ function draw(data) {
 
 
   // "mouseover" function for back bars
-  // select the back bars and change the opacity
   bar.select(".back")
-        .on("mouseover", function(d){
-        tip.transition()
-        .style('opacity', 1)
+      .on("mouseover", function(d){
 
         d3.select(this)
-          .style('opacity', 0.7);         
+        .append("svg:title")
+        .text(function(d){ 
+          if((d.low > d.mid) && (d.low > d.high)){
+            return d.low;
+          }
+          else if((d.mid > d.low) && (d.mid > d.high)){
+            return d.mid;
+          }
+          else{
+            return d.high;
+          }
+          });       
       })  
-
-
-  // restore opacity on "mouseout"
-  bar.select(".back")
-        .on("mouseout", function(d){
-        tip.transition()
-        .style("opacity", 0)
-        d3.select(this).style("opacity", 1);
-      })
 
 
   // add bars for middle layer
@@ -185,27 +184,28 @@ function draw(data) {
 
 
   // "mouseover" function for middle bars
-      // select the middle bars and change the opacity
-      bar.select(".middle")
-        .on("mouseover", function(d){
-        tip.transition()
-        .style('opacity', 1)
+  bar.select(".middle")
+    .on("mouseover", function(d){
 
-        d3.select(this)
-          .style('opacity', 0.7);         
+      d3.select(this)
+      .append("svg:title")
+      .text(function(d){ 
+        if(((d.low > d.mid) && (d.low < d.high))
+          || ((d.low > d.high) && (d.low < d.mid))){
+        return d.low;
+      }
+      else if(((d.mid > d.low) && (d.mid < d.high))
+        || ((d.mid > d.high) && (d.mid < d.low))){
+        return d.mid;
+      }
+      else{
+        return d.high;
+      }
+        })         
       })  
 
 
-      // restore opacity on "mouseout"
-      bar.select(".middle")
-        .on("mouseout", function(d){
-        tip.transition()
-        .style("opacity", 0)
-        d3.select(this).style("opacity", 1);
-      })
-
-     
-    
+  
   // add bars for front layer
   // if statement in accessor function moves larger valued bars to the front
   bar.append("rect")
@@ -243,28 +243,24 @@ function draw(data) {
       .style("opacity", 1);
 
         
-      // "mouseover" function for front bars
-      // select the front bars and change the opacity
-      //var front = [23.60, 9.52, 16.01, 16.83]
+  // "mouseover" function for front bars
+  bar.select(".front")
+    .on("mouseover", function(d){
 
-      bar.select(".front")
-      .on("mouseover", function(){
-        tip.transition()
-        .style('opacity', 1)
-
-        d3.select(this)
-          .style('opacity', 0.7);        
+      d3.select(this)
+      .append("svg:title")
+      .text(function(d){ 
+          if((d.low < d.mid) && (d.low < d.high)){
+          return d.low;
+        }
+        else if((d.mid < d.low) && (d.mid < d.high)){
+          return d.mid;
+        }
+        else{
+          return d.high;
+        }
+          });         
       })  
-
-
-      // restore opacity on "mouseout"
-      bar.select(".front")
-        .on("mouseout", function(){
-        tip.transition()
-        .style("opacity", 0)
-        d3.select(this)
-        .style("opacity", 1);
-      })
 
       
   // add x axis 
@@ -382,9 +378,6 @@ function draw(data) {
     // Replace with low bars when "low" button is clicked
     if(study[i] == "low"){
 
-      // Remove all bars
-      d3.selectAll('rect').remove()
-
       low = bar.append("rect")
       .attr("class", "low")
       .attr("y", function(d) {
@@ -435,13 +428,68 @@ function draw(data) {
         .style("font-size", "22px") 
         .text("Between 0 and 60 Study Hours");
 
+
+      // Remove back bars
+      d3.selectAll('.back')
+        .attr("width", function(d) { 
+      if((d.low > d.mid) && (d.low > d.high)){
+        return x(d.low);
+      }
+      else if((d.mid > d.low) && (d.mid > d.high)){
+        return x(d.mid);
+      }
+      else if((d.high > d.low) && (d.high > d.mid)){
+        return x(d.high);
+      }
+      })
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0);
+
+      // Remove middle bars
+      d3.selectAll('.middle')
+        .attr("width", function(d) { 
+        if(((d.low > d.mid) && (d.low < d.high))
+            || ((d.low > d.high) && (d.low < d.mid))){
+          return x(d.low);
+        }
+        else if(((d.mid > d.low) && (d.mid < d.high))
+          || ((d.mid > d.high) && (d.mid < d.low))){
+          return x(d.mid);
+        }
+        else{
+          return x(d.high);
+        }
+        })
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
+
+
+      // Remove Moderate bars
+      d3.selectAll('.mid')
+        .attr("width", function(d) { 
+        return x(d.mid);})
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
+
+      // Remove high bars
+      d3.selectAll('.high')
+        .attr("width", function(d) { 
+        return x(d.mid);})
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
+
     }
 
-    // Replace with mid bars when "mid" button is clicked
+    // Replace with moderate bars when "moderate" button is clicked
     else if(study[i] == "moderate"){
-
-      // Remove all bars
-      d3.selectAll('rect').remove()
 
       mid = bar.append("rect")
       .attr("class", "mid")
@@ -492,14 +540,66 @@ function draw(data) {
         .style("font-size", "22px") 
         .text("Between 61 and 120 Study Hours");
 
+      // Remove back bars
+      d3.selectAll('.back')
+        .attr("width", function(d) { 
+      if((d.low > d.mid) && (d.low > d.high)){
+        return x(d.low);
+      }
+      else if((d.mid > d.low) && (d.mid > d.high)){
+        return x(d.mid);
+      }
+      else if((d.high > d.low) && (d.high > d.mid)){
+        return x(d.high);
+      }
+      })
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0);
+
+      // Remove middle bars
+      d3.selectAll('.middle')
+        .attr("width", function(d) { 
+        if(((d.low > d.mid) && (d.low < d.high))
+            || ((d.low > d.high) && (d.low < d.mid))){
+          return x(d.low);
+        }
+        else if(((d.mid > d.low) && (d.mid < d.high))
+          || ((d.mid > d.high) && (d.mid < d.low))){
+          return x(d.mid);
+        }
+        else{
+          return x(d.high);
+        }
+        })
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
+
+      // Remove Low bars
+      d3.selectAll('.low')
+        .attr("width", function(d) { 
+        return x(d.mid);})
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
+
+      // Remove high bars
+      d3.selectAll('.high')
+        .attr("width", function(d) { 
+        return x(d.mid);})
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
 
     }
 
     // Replace with high bars when "high" button is clicked
     else if(study[i] == "high"){
-
-      // Remove all bars
-      d3.selectAll('rect').remove()
 
       high = bar.append("rect")
       .attr("class", "high")
@@ -550,13 +650,67 @@ function draw(data) {
         .style("font-size", "22px") 
         .text("Between 121 and 180 Study Hours");
 
+
+      // Remove back bars
+      d3.selectAll('.back')
+        .attr("width", function(d) { 
+      if((d.low > d.mid) && (d.low > d.high)){
+        return x(d.low);
+      }
+      else if((d.mid > d.low) && (d.mid > d.high)){
+        return x(d.mid);
+      }
+      else if((d.high > d.low) && (d.high > d.mid)){
+        return x(d.high);
+      }
+      })
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0);
+
+      // Remove middle bars
+      d3.selectAll('.middle')
+        .attr("width", function(d) { 
+        if(((d.low > d.mid) && (d.low < d.high))
+            || ((d.low > d.high) && (d.low < d.mid))){
+          return x(d.low);
+        }
+        else if(((d.mid > d.low) && (d.mid < d.high))
+          || ((d.mid > d.high) && (d.mid < d.low))){
+          return x(d.mid);
+        }
+        else{
+          return x(d.high);
+        }
+        })
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
+
+      // Remove Low bars
+      d3.selectAll('.low')
+        .attr("width", function(d) { 
+        return x(d.mid);})
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
+
+      // Remove moderate bars
+      d3.selectAll('.mid')
+        .attr("width", function(d) { 
+        return x(d.mid);})
+        .transition()
+        .duration(350)
+        .delay(function(d, i) {return i * 30;})
+        .attr("width", 0)
+
     }
 
     // Replace with all bars layered when "all" button is clicked
     else if(study[i] == "all"){
-
-      // Remove all bars
-      d3.selectAll('rect').remove()
 
       // add bars for back layer
       // if statement in accessor function moves larger valued bars to the back
