@@ -760,6 +760,41 @@ function draw(data) {
           })
           .style("opacity", 1);
 
+
+      // Mouseover
+      //highlight and append text to high bars on mouseover
+      bar.selectAll(".back")
+        .on("mouseover", function(d){
+        tip.transition()
+        .style('opacity', 1)
+
+        d3.select(this)
+          .style('opacity', 1) 
+          .append("svg:title")
+          .text(function(d){ 
+          if((d.low > d.mid) && (d.low > d.high)){
+            return d.low;
+          }
+          else if((d.mid > d.low) && (d.mid > d.high)){
+            return d.mid;
+          }
+          else{
+            return d.high;
+          }
+          });          
+      })  
+
+      // Mouseout
+      // restore opacity and remove text on "mouseout"
+      bar.selectAll(".back")
+        .on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0.8)
+        d3.select(this)
+          .style("opacity", 1)
+      })
+
+
       // add bars for middle layer
       // if statement in accessor function moves smaller valued bars to the back
       bar.append("rect")
@@ -800,6 +835,43 @@ function draw(data) {
           })
           .style("opacity", 1);
 
+      // Mouseover
+      // "mouseover" function for middle bars
+      bar.selectAll(".middle")
+        .on("mouseover", function(d){
+
+        tip.transition()
+        .style('opacity', 1)
+
+        d3.select(this)
+        .style('opacity', 1)
+        .append("svg:title")
+        .text(function(d){ 
+          if(((d.low > d.mid) && (d.low < d.high))
+            || ((d.low > d.high) && (d.low < d.mid))){
+          return d.low;
+        }
+        else if(((d.mid > d.low) && (d.mid < d.high))
+          || ((d.mid > d.high) && (d.mid < d.low))){
+          return d.mid;
+        }
+        else{
+          return d.high;
+        }
+        })         
+        })
+
+
+    // Mouseout
+    // restore middle bar opacity on "mouseout"
+    bar.selectAll(".middle")
+        .on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0)
+        d3.select(this).style("opacity", 1);
+      })    
+
+
       // add bars for front layer
       // if statement in accessor function moves larger valued bars to the front
       bar.append("rect")
@@ -835,6 +907,41 @@ function draw(data) {
             }
           })
           .style("opacity", 1);
+
+
+    // Mouseover
+    // "mouseover" function for front bars
+  bar.selectAll(".front")
+    .on("mouseover", function(d){
+
+      tip.transition()
+      .style('opacity', 1)
+
+      d3.select(this)
+      .style('opacity', 1)
+      .append("svg:title")
+      .text(function(d){ 
+          if((d.low < d.mid) && (d.low < d.high)){
+          return d.low;
+        }
+        else if((d.mid < d.low) && (d.mid < d.high)){
+          return d.mid;
+        }
+        else{
+          return d.high;
+        }
+          });         
+      })  
+
+
+  // restore front bar opacity on "mouseout"
+  bar.selectAll(".front")
+        .on("mouseout", function(d){
+        tip.transition()
+        .style("opacity", 0)
+        d3.select(this).style("opacity", 1);
+      })  
+
   });             
 }
 </script>
