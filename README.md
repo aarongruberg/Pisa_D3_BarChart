@@ -7,7 +7,7 @@
 <p>SUMMARY:</p> 
 
 <p>
-The PISA survey was given to 480,174 students from 65 Countries and asked students about their experience with and feelings toward reading, math, and science.  I split the students into groups with low, moderate, or high study time and created a layered bar chart of their responses to the statement "Math is One of My Best Subjects."  Around half of the students with high study time felt very confident in math but more study time did not always mean higher confidence in math.  Around a quarter of students with low study time and a quarter of students with high study time both felt very weak in math.  I also changed the order of the y axis to make it more intuitive.</p>
+The PISA survey was given to 480,174 students from 65 Countries and asked students about their experience with and feelings toward reading, math, and science. I split the students into groups with low, moderate, or high study time and created a layered bar chart of their responses to the statement 'Math is One of My Best Subjects.' 43% of students with high study time strongly agreed that math was among their best subjects, but more study time did not always lead to higher confidence. 27% of students with low study time and 24% of students with high study time strongly disagreed with the statement.</p>
 
 <p>DESIGN:</p>
 

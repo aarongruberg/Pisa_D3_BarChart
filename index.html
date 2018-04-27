@@ -45,6 +45,30 @@ form.select_chart {
   font-size: 25px;
 }
 
+div.summary {
+  position: relative;
+  bottom: 20px;
+  left: 120px;
+  text-align: justify;
+  width: 850px;
+  font-size: 20px;
+  line-height: 1.3;
+  text-indent: 50px;
+}
+
+div.main_title {
+  position: fixed;
+  top: 45px;
+  right: 370px;
+  font-size: 25px;
+}
+
+div.subtitle {
+  position: fixed;
+  top: 90px;
+  right: 620px;
+  font-size: 22px;
+}
 
 </style>
 <script>
@@ -340,40 +364,45 @@ function draw(data) {
       .call(yAxis);
 
   // add main title a
-  chart.append("text")
-        .attr("class", "main_a")
-        .attr("x", (width - 230))             
-        .attr("y", (margin.top - 180))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "22px") 
-        .text("Student Responses to the PISA 2012 Statement:");
+  //chart.append("text")
+   //     .attr("class", "main_title")
+   //     .attr("x", (width - 230))             
+   //     .attr("y", (margin.top - 180))
+   //     .attr("text-anchor", "middle")  
+   //     .style("font-size", "22px") 
+   //     .text("Student Responses to 'Math is One of My Best Subjects' from PISA 2012 Survey");
 
   // add main title b
-  chart.append("text")
-        .attr("class", "main_b")
-        .attr("x", (width - 290))             
-        .attr("y", (margin.top - 140))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "22px") 
-        .text("'Math is One of My Best Subjects'");
+  //chart.append("text")
+   //     .attr("class", "main_b")
+    //    .attr("x", (width - 290))             
+     //   .attr("y", (margin.top - 140))
+      //  .attr("text-anchor", "middle")  
+       // .style("font-size", "22px") 
+       // .text("'Math is One of My Best Subjects'");
 
+  // Add Main Title
+  var title = d3.select("body")
+                  .append("div")
+                  .attr("class", "main_title")
+                  .text("PISA 2012 Student Responses: 'Math is One of My Best Subjects'");
 
-  // add sub title
-  chart.append("text")
-        .attr("class", "title")
-        .attr("x", (width - 350))             
-        .attr("y", (margin.top - 100))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "18px") 
-        .text("Grouped by Study Time");
-
-
+  var subtitle = d3.select("body")
+                  .append("div")
+                  .attr("class", "subtitle")
+                  .text("Grouped by Study Time");
 
   // Add title for button menu
   var menu_label = d3.select("body")
                       .append("div")
                       .attr("class", "menu")
                       .text("Click Below to Select Chart");
+
+  // Summary of visualization
+  var summary = d3.select("body")
+                      .append("div")
+                      .attr("class", "summary")
+                      .text("The PISA survey was given to 480,174 students from 65 Countries and asked students about their experience with and feelings toward reading, math, and science. I split the students into groups with low, moderate, or high study time and created a layered bar chart of their responses to the statement 'Math is One of My Best Subjects.' 43% of students with high study time strongly agreed that math was among their best subjects, but more study time did not always lead to higher confidence. 27% of students with low study time and 24% of students with high study time strongly disagreed with the statement.");
 
   // Array of hour ranges for legend
   var study = ["0 - 60 Hours", "61 - 120 Hours", "121 - 180 Hours", "all"];
